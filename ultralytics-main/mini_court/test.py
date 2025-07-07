@@ -2,9 +2,12 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 import math
+from collections import deque
+
 
 TENNIS_COURT_WIDTH_M = 8.23  # 单打宽度（米）
 TENNIS_COURT_LENGTH_M = 23.77  # 全场长度（米）
+ball_positions = deque(maxlen=5)  # 最多保留5帧
 
 pixels_per_meter_width = 240 / TENNIS_COURT_WIDTH_M  # 水平方向（宽度）每米对应的像素
 pixels_per_meter_height = 480 / TENNIS_COURT_LENGTH_M  # 垂直方向（长度）每米对应的像素
@@ -135,10 +138,20 @@ def main():
                 max_conf = conf
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+                point = np.array([cx, cy], dtype=np.float32)
 
                 pt = np.array([[[cx, cy]]], dtype=np.float32)
                 projected = cv2.perspectiveTransform(pt, H)[0][0]
                 ball_pos_pixel = projected
+                if point is not None:
+                    ball_positions.append(point)
+
+
+        for i, pos in enumerate(ball_positions):
+            bx, by = int(pos[0]), int(pos[1])
+            alpha = 255 - i * 40  # 越旧越透明（大致）
+            cv2.circle(annotated, (bx, by), 8, (0, alpha, 0), -1)
+            
 
         # 计算球速（仅在连续两帧都检测到球时计算）
         if ball_pos_pixel is not None and prev_ball_pos is not None:
