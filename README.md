@@ -1,0 +1,5 @@
+# using-yolov8-for-tennis-detecting
+网球检测并在视频里标注，使用yolov8模型
+其中mini_court 文件夹里存放代码get_point和draw_mini_court
+get_point用于在你所要处理的视频中网球场界四个点的位置判定，需要手动标四个点，然后程序会告诉你四个点位置
+draw_mini_court 函数用于对视频进行处理
