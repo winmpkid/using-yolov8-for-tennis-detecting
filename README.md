@@ -2,6 +2,7 @@
 首先实际模型训练精度并不佳。
 如果要使用别的视频进行处理，要保证视频镜头全程不动，
 若要提升精度，建议放需处理视频其中几帧的照片及其标签到train和val及其labeltrain和labelval里面。
+标签先打tennisball再打tennisplayer标签
 
 
 网球检测并在视频里标注，使用yolov8模型，
