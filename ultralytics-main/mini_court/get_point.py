@@ -10,7 +10,7 @@ def mouse_callback(event, x, y, flags, param):
             print(f"第 {len(clicked_points)} 个点：({x}, {y})")
 
 # 从视频读取第一帧
-video_path = r"D:\tennis\vedio\屏幕录制 2025-07-02 115316.mp4"
+video_path = r"D:\tennis\vedio\屏幕录制 2025-07-01 103052.mp4"
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
 cap.release()
